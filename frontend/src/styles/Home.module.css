@@ -33,15 +33,18 @@
   border: 1px solid #ebebeb;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
   color: #7e7e7e;
-  font-size: 16px;
+  font-size: 1.2rem;
   height: 32px;
   padding: 4px 12px;
-  margin-right: 6px;
-  margin-bottom: 6px;
+  margin-bottom: 0.8rem;
   box-sizing: border-box;
   width: 100%;
 }
-
+.label {
+  color: #fff;
+  font-family: "Poppins";
+  font-size: 1rem;
+}
 .primaryButton {
   color: #ffffff;
   background: #ff5f00;

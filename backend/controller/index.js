@@ -1,7 +1,7 @@
 const service = require("../service");
 
 function createEmail({ fullName, companyDomain }) {
-  return service.setEmailAlias(fullName, companyDomain);
+  return { data: service.setEmailAlias(fullName, companyDomain) };
 }
 
 function getDomains() {

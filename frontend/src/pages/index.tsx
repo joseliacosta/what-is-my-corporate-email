@@ -3,6 +3,10 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
 
+type Person = {
+  fullName: string;
+  companyDomain: string | null;
+};
 export default function Home() {
   const [companyDomains, setCompanyDomains] = useState([]);
   useEffect(() => {
@@ -14,6 +18,31 @@ export default function Home() {
 
     dataFetch();
   }, []);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data: Person = {
+      fullName: event.target.fullName.value,
+      companyDomain: event.target.companyDomain.value,
+    };
+
+    const JSONdata = JSON.stringify(data);
+
+    const endpoint = "http://localhost:3001/email";
+
+    const options = {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSONdata,
+    };
+    const response = await fetch(endpoint, options);
+    const result = await response.json();
+    alert(result.data);
+  };
   return (
     <>
       <Head>
@@ -35,17 +64,34 @@ export default function Home() {
           If we knew the company domain already, we will tell you the best email
           that you can give a try 🤓
         </h2>
-        <form className={styles.form}>
+        <form action="/email" className={styles.form} onSubmit={handleSubmit}>
+          <label htmlFor="fullName" className={styles.label}>
+            Full name
+          </label>
           <input
+            autoComplete="off"
+            type="text"
+            id="fullName"
+            name="fullName"
             className={styles.inputText}
             placeholder="E.g.: Ada Lovelace"
+            required
           />
-
-          <select className={styles.dropdownList}>
-            <option>Please select one item</option>
-            {companyDomains.map((domain) => {
-              return <option>{domain}</option>;
-            })}
+          <label htmlFor="companyDomain" className={styles.label}>
+            Company domain
+          </label>
+          <select
+            className={styles.dropdownList}
+            id="companyDomain"
+            name="companyDomain"
+            required
+          >
+            <option value="">Please select one item</option>
+            {companyDomains.map((domain) => (
+              <option key={domain} value={domain}>
+                {domain}
+              </option>
+            ))}
           </select>
           <button type="submit" className={styles.primaryButton}>
             Search

@@ -1,12 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-var cors = require('cors')
+var cors = require("cors");
 
 const controller = require("./controller/index");
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors())
+app.use(cors());
 
 app.post("/email", (req, res) => {
   const newEmail = req.body;
