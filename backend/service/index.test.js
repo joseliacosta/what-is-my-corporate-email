@@ -23,7 +23,7 @@ describe("email", () => {
 describe("company domain", () => {
   it("should return a list of known domains", () => {
     const result = getDistinctDomains();
-
+    expect(result).toHaveLength(3);
     expect(result).toEqual(["babbel.com", "linkedin.com", "google.com"]);
   });
 });
