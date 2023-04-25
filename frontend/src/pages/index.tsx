@@ -2,10 +2,22 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import { useEffect, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const [companyDomains, setCompanyDomains] = useState([])
+  useEffect(() => {
+    const dataFetch = async () => {
+      const data = await (await fetch('http://localhost:3001/domains')).json();
+
+      setCompanyDomains(data);
+    };
+
+    dataFetch();
+  }, []);
   return (
     <>
       <Head>
@@ -40,14 +52,14 @@ export default function Home() {
         </div>
 
         <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
+          <form>
+            <input placeholder='E.g.: Ada Lovelace'/>
+
+              <select>
+                <option>Please select one item</option>
+              {
+              companyDomains.map(domain =>{ return <option>{domain}</option>})}</select>
+          </form>
         </div>
 
         <div className={styles.grid}>
