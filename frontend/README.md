@@ -1,38 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Frontend
 
-## Getting Started
+## Requirements
 
-First, run the development server:
+- Node v14
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+## How to install
+
+```
+npm install
+OR
+yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Running the application
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+As it is a fullstack application, you also need to initialize the server to have a better experience.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```
+cd ../backend
+npm install
+npm run dev
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+You can also check all server scripts on backend directory
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+After running the backend, you can run the frontend!
 
-## Learn More
+```
+cd ../frontend
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Running the tests
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+npm run test
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## What to expect from this project?
 
-## Deploy on Vercel
+This project is still an MVP [Minimum viable product](https://en.wikipedia.org/wiki/Minimum_viable_product), so there's a room for improvements, still.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+However, you can have things like:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Browser native validations, to prevent sending wrong data to the server;
+- HTTP errors handling: not ideal but having the react native error pop-up is very sad. So, the current status of this frontend tries to at least show a friendly error if the server is down.
+- Unit and integration tests: the main part of the main flow are covered by automated tests
+- [useSWR](https://swr.vercel.app/) to fetch data: to have a more reactive way to show what happened after call the API, SWR is really useful and clean using it. On projects it's also available the next steps to scale this implementation.
+
+## Next steps
+
+Check the backlog on Projects tab
