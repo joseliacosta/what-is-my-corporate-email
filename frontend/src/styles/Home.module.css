@@ -65,9 +65,12 @@
 
 .result {
   margin: 2rem 0;
-  background: #fff;
+  border-radius: 4px;
+  background: #dce9f0;
   height: 15vh;
+  padding: 1.2rem;
 }
+
 .footer {
   display: flex;
   align-items: center;

@@ -85,9 +85,12 @@ export default function Home() {
             Search
           </button>
         </form>
-        <section className={styles.result}>
-          {`For ${person} , the email is probably ${email}`}
-        </section>
+        {email && (
+          <section className={styles.result}>
+            <h3>Result</h3>
+            {`For ${person}, the email is probably ${email}`}
+          </section>
+        )}
       </main>
       <footer className={styles.footer}>
         Made with 🧡 by:

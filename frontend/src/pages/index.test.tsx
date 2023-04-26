@@ -72,4 +72,14 @@ describe("Home", () => {
       });
     });
   });
+
+  describe("Result panel", () => {
+    it("should not appear before submit the form", () => {
+      render(<Home />);
+      const title = screen.queryByRole("heading", { level: 3 });
+      const copy = screen.queryByText(/the email is probably/i);
+      expect(title).not.toBeInTheDocument();
+      expect(copy).not.toBeInTheDocument();
+    });
+  });
 });
