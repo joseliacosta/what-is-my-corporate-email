@@ -36,6 +36,28 @@ npm run dev
 npm run test
 ```
 
+## How to consume this API
+
+`GET /domains` - retrieve all company domains knew by server data
+
+```json
+
+{
+    data: string[]
+}
+```
+
+`POST /email` - given a full name and company domain, returns a email based on company pattern
+
+### Payload:
+
+```json
+{
+    "fullName": string
+    "companyDomain": string
+}
+```
+
 ## What to expect from this project?
 
 This project is a restart of a frontend person who also likes javascript in the server.
