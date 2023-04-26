@@ -31,7 +31,6 @@ export default function Home() {
         if (!response.ok) {
           console.log(response);
           setError(response as string);
-          console.log("api error", apiError);
         }
 
         return response.json();
