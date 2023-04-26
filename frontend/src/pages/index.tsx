@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import styles from "@/styles/Home.module.css";
 import { useState } from "react";
-import { Domains, Person, useData, useSubmitForm } from "@/services/data";
+import { Domains, Person, useData, submitForm } from "@/services/data";
 
 interface FormElements extends HTMLFormControlsCollection {
   fullName: HTMLInputElement;
@@ -18,18 +18,37 @@ export default function Home() {
   const [email, setEmail] = useState<null | string>(null);
   const [apiError, setError] = useState<null | string>(null);
 
-  const handleSubmit = async (event: React.FormEvent<PersonFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<PersonFormElement>) => {
     event.preventDefault();
 
     const formData: Person = {
       fullName: event.currentTarget.elements.fullName.value,
       companyDomain: event.currentTarget.elements.companyDomain.value,
     };
-    const result = await useSubmitForm(formData);
-    setPerson(formData.fullName);
 
-    setEmail(result.data);
+    submitForm(formData)
+      .then((response) => {
+        if (!response.ok) {
+          console.log(response);
+          setError(response as string);
+          console.log("api error", apiError);
+        }
+
+        return response.json();
+      })
+      .then(({ data }) => {
+        setEmail(data);
+        setError(null);
+        setPerson(formData.fullName);
+      })
+      .catch((error) => {
+        setError(error);
+      });
   };
+  function refreshPage() {
+    window.location.reload();
+  }
+
   return (
     <>
       <Head>
@@ -72,19 +91,19 @@ export default function Home() {
           {isLoading ? (
             "Loading options..."
           ) : (
-          <select
-            className={styles.dropdownList}
-            id="companyDomain"
-            name="companyDomain"
-            required
-          >
-            <option value="">Please select one item</option>
-            {data?.map((domain) => (
-              <option key={domain} value={domain}>
-                {domain}
-              </option>
-            ))}
-          </select>
+            <select
+              className={styles.dropdownList}
+              id="companyDomain"
+              name="companyDomain"
+              required
+            >
+              <option value="">Please select one item</option>
+              {data?.map((domain) => (
+                <option key={domain} value={domain}>
+                  {domain}
+                </option>
+              ))}
+            </select>
           )}
           <button type="submit" className={styles.primaryButton}>
             Search
@@ -92,8 +111,21 @@ export default function Home() {
         </form>
         {email && (
           <section className={styles.result}>
-            <h3>Result</h3>
-            {`For ${person}, the email is probably ${email}`}
+            <h3 id="result">Result</h3>
+            {`For ${person}, the corporate email is ${email}`}
+            <button onClick={refreshPage} className={styles.secondaryButton}>
+              Try again
+            </button>
+          </section>
+        )}
+
+        {isError && (
+          <section className={styles.result}>
+            <h3 id="error">Error message</h3>
+            <p>Unfortunately we had an error on our server 😢</p>
+            <button onClick={refreshPage} className={styles.secondaryButton}>
+              Try again
+            </button>
           </section>
         )}
       </main>

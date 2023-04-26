@@ -2,11 +2,11 @@ import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import Home from ".";
-import { useSubmitForm } from "@/services/data";
+import { submitForm } from "@/services/data";
 
 jest.mock("../services/data", () => ({
   useData: jest.fn(() => ({ data: ["google.com", "linkedin.com"] })),
-  useSubmitForm: jest.fn(),
+  submitForm: jest.fn(),
 }));
 
 describe("Home", () => {
@@ -46,23 +46,26 @@ describe("Home", () => {
     it("should submit form if user has all data valid", async () => {
       render(<Home />);
 
-      // mock the return value of useSubmitForm
-      const mockResult = { data: "johndoe@linkedin.com" };
-      const mockUseSubmitForm = useSubmitForm as jest.MockedFunction<
-        typeof useSubmitForm
+      // mock the return value of submitForm
+      const mockResult: Promise<any> = Promise.resolve({
+        data: "johndoe@linkedin.com",
+      });
+
+      const mockUseSubmitForm = submitForm as jest.MockedFunction<
+        typeof submitForm
       >;
       mockUseSubmitForm.mockResolvedValue(mockResult);
 
       const fullNameInput = screen.getByRole("textbox");
       const companyDomainInput = screen.getByRole("combobox");
       const searchButton = screen.getByRole("button");
+      const email = screen.findByText("johndoe@linkedin.com");
 
       await act(async () => {
         await userEvent.type(fullNameInput, "John Due");
         await userEvent.selectOptions(companyDomainInput, "linkedin.com");
         await userEvent.click(searchButton);
       });
-
       expect(fullNameInput).toBeValid();
       expect(companyDomainInput).toBeValid();
       expect(mockUseSubmitForm).toHaveBeenCalledTimes(1);
@@ -74,10 +77,10 @@ describe("Home", () => {
   });
 
   describe("Result panel", () => {
-    it("should not appear before submit the form", () => {
+    it("should not appear before submitting the form", () => {
       render(<Home />);
       const title = screen.queryByRole("heading", { level: 3 });
-      const copy = screen.queryByText(/the email is probably/i);
+      const copy = screen.queryByText(/the corporate email is /i);
       expect(title).not.toBeInTheDocument();
       expect(copy).not.toBeInTheDocument();
     });

@@ -62,13 +62,30 @@
 .primaryButton:hover {
   background: #cc2560;
 }
-
+.secondaryButton {
+  color: #ff5f00;
+  border: 1px solid #ff5f00;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+  font-size: 16px;
+  height: 3.2rem;
+  padding: 4px 12px;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1.6rem;
+}
 .result {
   margin: 2rem 0;
   border-radius: 4px;
   background: #dce9f0;
-  height: 15vh;
+
   padding: 1.2rem;
+}
+.result h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1.6rem;
 }
 
 .footer {

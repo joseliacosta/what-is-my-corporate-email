@@ -19,17 +19,11 @@ export const useData = <T extends unknown>(url: string) => {
     isLoading,
     isError: error,
   };
-
-    dataFetch();
-  }, [url]);
-
-  return { data: state };
 };
 
-export const useSubmitForm = async (formValues: Person) => {
-  const JSONdata = JSON.stringify(formValues);
-
+export const submitForm = async (formValues: Person) => {
   const endpoint = `${baseUrl}email`;
+  const JSONdata = JSON.stringify(formValues);
 
   const options = {
     method: "POST",
@@ -37,10 +31,20 @@ export const useSubmitForm = async (formValues: Person) => {
     headers: {
       "Content-Type": "application/json",
     },
-
     body: JSONdata,
   };
-  const response = await fetch(endpoint, options);
-  const result = await response.json();
-  return result;
+
+  let response;
+
+  try {
+    response = await fetch(endpoint, options);
+  } catch (error) {
+    return "There was an error: " + error;
+  }
+
+  if (response?.ok) {
+    return response;
+  } else {
+    return `HTTP Response Code: ${response?.status}`;
+  }
 };
