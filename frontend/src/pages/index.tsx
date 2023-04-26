@@ -2,12 +2,8 @@ import Head from "next/head";
 
 import styles from "@/styles/Home.module.css";
 import { useState } from "react";
-import { Domains, useData } from "@/services/data";
+import { Domains, Person, useData, useSubmitForm } from "@/services/data";
 
-type Person = {
-  fullName: string;
-  companyDomain: string | null;
-};
 interface FormElements extends HTMLFormControlsCollection {
   fullName: HTMLInputElement;
   companyDomain: HTMLInputElement;
@@ -28,23 +24,9 @@ export default function Home() {
       fullName: event.currentTarget.elements.fullName.value,
       companyDomain: event.currentTarget.elements.companyDomain.value,
     };
-
+    const result = await useSubmitForm(formData);
     setPerson(formData.fullName);
-    const JSONdata = JSON.stringify(formData);
 
-    const endpoint = "http://localhost:3001/email";
-
-    const options = {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSONdata,
-    };
-    const response = await fetch(endpoint, options);
-    const result = await response.json();
     setEmail(result.data);
   };
   return (
@@ -81,7 +63,7 @@ export default function Home() {
             placeholder="E.g.: Ada Lovelace"
             required
             title="Please, provide a full name, for example at least one surname"
-            pattern="^\S+\s+\S+$"
+            pattern="^\S+(?:\s+\S+)+$"
           />
           <label htmlFor="companyDomain" className={styles.label}>
             Company domain
