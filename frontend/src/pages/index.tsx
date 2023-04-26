@@ -71,40 +71,44 @@ export default function Home() {
           that you can give a try 🤓
         </h2>
         <form action="/email" className={styles.form} onSubmit={handleSubmit}>
-          <label htmlFor="fullName" className={styles.label}>
-            Full name
-          </label>
-          <input
-            autoComplete="off"
-            type="text"
-            id="fullName"
-            name="fullName"
-            className={styles.inputText}
-            placeholder="E.g.: Ada Lovelace"
-            required
-            title="Please, provide a full name, for example at least one surname"
-            pattern="^\S+(?:\s+\S+)+$"
-          />
-          <label htmlFor="companyDomain" className={styles.label}>
-            Company domain
-          </label>
-          {isLoading ? (
-            "Loading options..."
-          ) : (
-            <select
-              className={styles.dropdownList}
-              id="companyDomain"
-              name="companyDomain"
+          <div>
+            <label htmlFor="fullName" className={styles.label}>
+              Full name
+            </label>
+            <input
+              autoComplete="off"
+              type="text"
+              id="fullName"
+              name="fullName"
+              className={styles.inputText}
+              placeholder="E.g.: Ada Lovelace"
               required
-            >
-              <option value="">Please select one item</option>
-              {data?.map((domain) => (
-                <option key={domain} value={domain}>
-                  {domain}
-                </option>
-              ))}
-            </select>
-          )}
+              title="Please, provide a full name, for example at least one surname"
+              pattern="^\S+(?:\s+\S+)+$"
+            />
+          </div>
+          <div>
+            <label htmlFor="companyDomain" className={styles.label}>
+              Company domain
+            </label>
+            {isLoading ? (
+              "Loading options..."
+            ) : (
+              <select
+                className={styles.dropdownList}
+                id="companyDomain"
+                name="companyDomain"
+                required
+              >
+                <option value="">Please select one item</option>
+                {data?.map((domain) => (
+                  <option key={domain} value={domain}>
+                    {domain}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
           <button type="submit" className={styles.primaryButton}>
             Search
           </button>
