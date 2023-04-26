@@ -8,8 +8,8 @@ type Person = {
   companyDomain: string | null;
 };
 interface FormElements extends HTMLFormControlsCollection {
-  fullNameInput: HTMLInputElement;
-  companyDomainInput: HTMLInputElement;
+  fullName: HTMLInputElement;
+  companyDomain: HTMLInputElement;
 }
 interface PersonFormElement extends HTMLFormElement {
   readonly elements: FormElements;
@@ -33,13 +33,13 @@ export default function Home() {
   const handleSubmit = async (event: React.FormEvent<PersonFormElement>) => {
     event.preventDefault();
 
-    const data: Person = {
-      fullName: event.currentTarget.elements.fullNameInput.value,
-      companyDomain: event.currentTarget.elements.companyDomainInput.value,
+    const formData: Person = {
+      fullName: event.currentTarget.elements.fullName.value,
+      companyDomain: event.currentTarget.elements.companyDomain.value,
     };
 
-    setPerson(data.fullName);
-    const JSONdata = JSON.stringify(data);
+    setPerson(formData.fullName);
+    const JSONdata = JSON.stringify(formData);
 
     const endpoint = "http://localhost:3001/email";
 
