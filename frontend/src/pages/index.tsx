@@ -13,9 +13,10 @@ interface PersonFormElement extends HTMLFormElement {
 }
 
 export default function Home() {
-  const [person, setPerson] = useState("");
-  const [email, setEmail] = useState("");
-  const { data } = useData<Domains>("domains");
+  const { data, isError, isLoading } = useData<Domains>("domains");
+  const [person, setPerson] = useState<null | string>(null);
+  const [email, setEmail] = useState<null | string>(null);
+  const [apiError, setError] = useState<null | string>(null);
 
   const handleSubmit = async (event: React.FormEvent<PersonFormElement>) => {
     event.preventDefault();
@@ -68,6 +69,9 @@ export default function Home() {
           <label htmlFor="companyDomain" className={styles.label}>
             Company domain
           </label>
+          {isLoading ? (
+            "Loading options..."
+          ) : (
           <select
             className={styles.dropdownList}
             id="companyDomain"
@@ -81,6 +85,7 @@ export default function Home() {
               </option>
             ))}
           </select>
+          )}
           <button type="submit" className={styles.primaryButton}>
             Search
           </button>

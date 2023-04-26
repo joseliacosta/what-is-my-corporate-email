@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import useSWR, { Fetcher } from "swr";
 
 export type Domains = string[];
 export type Person = {
@@ -6,15 +6,19 @@ export type Person = {
   companyDomain: string | null;
 };
 
-const baseUrl = "http://localhost:3001/";
-export const useData = <T extends unknown>(url: string) => {
-  const [state, setState] = useState<T>();
-  useEffect(() => {
-    const dataFetch = async () => {
-      const data = await (await fetch(`${baseUrl}${url}`)).json();
+const fetcher: Fetcher<Domains, string> = (...args) =>
+  fetch(...args).then((res) => res.json());
 
-      setState(data);
-    };
+const baseUrl = "http://localhost:3001/";
+
+export const useData = <T extends unknown>(url: string) => {
+  const { data, error, isLoading } = useSWR(`${baseUrl}${url}`, fetcher);
+
+  return {
+    data,
+    isLoading,
+    isError: error,
+  };
 
     dataFetch();
   }, [url]);
