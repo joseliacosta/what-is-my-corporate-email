@@ -22,6 +22,6 @@ Feel free to play on both repos:
 
 ## Backlog
 
-As a project that just started (focused ~8h developing it), here is a backlog list with the next steps and activities that can be done.
+As a project that just started (focused ~8h developing it), here is a [backlog board](https://github.com/users/joseliacosta/projects/1/views/1) with the next steps and activities that can be done.
 
 Feel free to also add taks if you had an idea or a feedback!

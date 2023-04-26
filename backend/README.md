@@ -50,4 +50,4 @@ However, you can have things like:
 
 ## Next steps
 
-Check the backlog on Projects tab
+Check the [backlog board](https://github.com/users/joseliacosta/projects/1/views/1) on Projects tab
