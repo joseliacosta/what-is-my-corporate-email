@@ -1,7 +1,8 @@
 import Head from "next/head";
 
 import styles from "@/styles/Home.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Domains, useData } from "@/services/data";
 
 type Person = {
   fullName: string;
@@ -16,19 +17,9 @@ interface PersonFormElement extends HTMLFormElement {
 }
 
 export default function Home() {
-  const [companyDomains, setCompanyDomains] = useState([]);
   const [person, setPerson] = useState("");
   const [email, setEmail] = useState("");
-
-  useEffect(() => {
-    const dataFetch = async () => {
-      const data = await (await fetch("http://localhost:3001/domains")).json();
-
-      setCompanyDomains(data);
-    };
-
-    dataFetch();
-  }, []);
+  const { data } = useData<Domains>("domains");
 
   const handleSubmit = async (event: React.FormEvent<PersonFormElement>) => {
     event.preventDefault();
@@ -102,7 +93,7 @@ export default function Home() {
             required
           >
             <option value="">Please select one item</option>
-            {companyDomains.map((domain) => (
+            {data?.map((domain) => (
               <option key={domain} value={domain}>
                 {domain}
               </option>
