@@ -21,9 +21,9 @@ npm install OR yarn install
 npm run dev OR yarn dev
 ```
 
-You can also check all server scripts on backend directory
+You can also check all server scripts on frontend directory
 
-After running the backend, you can run the frontend!
+After running the frontend, you can run the backend!
 
 ```
 cd ../backend
