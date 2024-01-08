@@ -22,7 +22,7 @@ Feel free to play on both repos:
 
 ## How it works and Acceptance Criteria
 
-An HTTP micro service with a single end point to derive email addresses for a person, given their full name and company domain. We can assume that all email addresses of one company follow the same format. That is, if we know the full name and email address of one person in the company, we should be able to derive the email addresses of other employees given their full name.
+An HTTP tiny and humble micro service with a single end point to derive email addresses for a person, given their full name and company domain. We can assume that all email addresses of one company follow the same format. That is, if we know the full name and email address of one person in the company, we should be able to derive the email addresses of other employees given their full name.
 
 Assuming a sample data set exists in a static JSON file such as the one below:
 ```json
