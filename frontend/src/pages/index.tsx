@@ -1,8 +1,9 @@
+import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 
 import styles from "@/styles/Home.module.css";
 import { useState } from "react";
-import { Domains, Person, useData, submitForm } from "@/services/data";
+import { Domains, Person, submitForm } from "@/services/data";
 
 interface FormElements extends HTMLFormControlsCollection {
   fullName: HTMLInputElement;
@@ -12,8 +13,18 @@ interface PersonFormElement extends HTMLFormElement {
   readonly elements: FormElements;
 }
 
-export default function Home() {
-  const { data, isError, isLoading } = useData<Domains>("domains");
+export const getServerSideProps: GetServerSideProps<{
+  domains: Domains;
+}> = async () => {
+  const response = await fetch("http://localhost:3001/domains");
+  const domains = await response.json();
+
+  return { props: { domains } };
+};
+
+export default function Home({
+  domains,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [person, setPerson] = useState<null | string>(null);
   const [email, setEmail] = useState<null | string>(null);
   const [apiError, setError] = useState<null | string>(null);
@@ -26,23 +37,23 @@ export default function Home() {
       companyDomain: event.currentTarget.elements.companyDomain.value,
     };
 
-    submitForm(formData)
-      .then((response) => {
-        if (!response.ok) {
-          console.log(response);
-          setError(response as string);
-        }
+    submitForm(formData);
+    // .then((response) => {
+    //   if (!response.offk) {
+    //     console.log(response);
+    //     setError(response as string);
+    //   }
 
-        return response.json();
-      })
-      .then(({ data }) => {
-        setEmail(data);
-        setError(null);
-        setPerson(formData.fullName);
-      })
-      .catch((error) => {
-        setError(error);
-      });
+    //   return response.json();
+    // })
+    // .then(({ data }) => {
+    //   setEmail(data);
+    //   setError(null);
+    //   setPerson(formData.fullName);
+    // })
+    // .catch((error) => {
+    //   setError(error);
+    // });
   };
   function refreshPage() {
     window.location.reload();
@@ -90,23 +101,19 @@ export default function Home() {
             <label htmlFor="companyDomain" className={styles.label}>
               Company domain
             </label>
-            {isLoading ? (
-              "Loading options..."
-            ) : (
-              <select
-                className={styles.dropdownList}
-                id="companyDomain"
-                name="companyDomain"
-                required
-              >
-                <option value="">Please select one item</option>
-                {data?.map((domain) => (
-                  <option key={domain} value={domain}>
-                    {domain}
-                  </option>
-                ))}
-              </select>
-            )}
+            <select
+              className={styles.dropdownList}
+              id="companyDomain"
+              name="companyDomain"
+              required
+            >
+              <option value="">Please select one item</option>
+              {domains.map((domain) => (
+                <option key={domain} value={domain}>
+                  {domain}
+                </option>
+              ))}
+            </select>
           </div>
           <button type="submit" className={styles.primaryButton}>
             Search
@@ -121,7 +128,7 @@ export default function Home() {
             </button>
           </section>
         )}
-
+        {/* 
         {isError ||
           (apiError && (
             <section className={styles.result}>
@@ -131,7 +138,7 @@ export default function Home() {
                 Try again
               </button>
             </section>
-          ))}
+          ))} */}
       </main>
       <footer className={styles.footer}>
         Made with 🧡 by:
